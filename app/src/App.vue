@@ -1,10 +1,10 @@
 <template>
   <v-app>
-    <v-navigation-drawer v-if="!isLockScreen" v-model="drawer">
+    <v-navigation-drawer v-model="drawer">
       <NavigationTab />
     </v-navigation-drawer>
 
-    <v-app-bar v-if="!isLockScreen">
+    <v-app-bar >
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
       <HeaderView />
     </v-app-bar>
@@ -22,5 +22,4 @@ import NavigationTab from './components/NavigationTabs/navigationTab.vue';
 import ContentView from './components/ContentView/ContentView.vue'
 
 const drawer = ref(null)
-const isLockScreen = ref(null)
 </script>

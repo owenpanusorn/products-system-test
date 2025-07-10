@@ -54,9 +54,13 @@
 </template>
 
 <script setup>
+import { ref } from 'vue';
+
 defineOptions({
     name: "productsTable"
 })
+
+const search = ref("")
 
 const headers = [
   { title: "รหัสสินค้า", key: "prod_id" },

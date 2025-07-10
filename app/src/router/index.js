@@ -10,13 +10,6 @@ const router = createRouter({
                 title: "รายการสินค้า",
               },
         },
-        {
-            path: '/account',
-            component: () => import('@/views/Login/LoginView.vue'),
-            meta: {
-                title: "รายการบัญชี"
-            }
-        }
     ]
 })
 
