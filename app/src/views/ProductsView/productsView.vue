@@ -18,20 +18,36 @@
       </v-col>
     </v-row>
 
-    <productsTable />
-
+    <productsTable :items="tblData" :loading="loading" />
     <productsDialogInsert v-model:dialog="dialogInsert" />
-  </v-container>
+ 
+ </v-container>
 </template>
 
 <script setup>
 import productsTable from "@/components/products/products.table.vue";
 import productsDialogInsert from "@/components/products/products.dialog.insert.vue";
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "@/firebase";
 
 defineOptions({
   name: "ProductsView",
 });
 
-const dialogInsert = ref(false)
+const tblData = ref([])
+const dialogInsert = ref(false);
+const loading = ref(false)
+
+const fetchProducts = async () => {
+  const productsListSnapshot = await getDocs(collection(db, "products"));
+  const products = productsListSnapshot.docs.map((doc) => doc.data());
+  if (products.length > 0) {
+    tblData.value = products
+  }
+};
+
+onMounted(() => {
+  fetchProducts();
+});
 </script>
