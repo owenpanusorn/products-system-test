@@ -18,7 +18,7 @@
     <div>
       <v-list density="compact" nav>
         <v-list-item
-          ><v-btn color="error" variant="tonal" prepend-icon="mdi-export" block
+          ><v-btn color="error" variant="tonal" prepend-icon="mdi-export" block @click="handleLogout"
             >ออกจากระบบ</v-btn
           ></v-list-item
         >
@@ -30,6 +30,8 @@
 <script setup>
 import { useRouter } from "vue-router";
 import { ref } from "vue";
+import { onAuthStateChanged, signOut } from "firebase/auth";
+import { auth } from "@/firebase";
 
 defineOptions({
   name: "NavigationTab",
@@ -46,6 +48,16 @@ const onClickMenu = (link) => {
       console.error(error);
     }
   });
+};
+
+const handleLogout = async () => {
+  try {
+    await signOut(auth);
+    console.log("ออกจากระบบสำเร็จ");
+    router.push("/signin");
+  } catch (error) {
+    console.error("เกิดข้อผิดพลาดในการออกจากระบบ:", error);
+  }
 };
 </script>
 

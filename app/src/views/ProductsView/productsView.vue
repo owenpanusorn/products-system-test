@@ -19,15 +19,14 @@
     </v-row>
 
     <productsTable :items="tblData" :loading="loading" />
-    <productsDialogInsert v-model:dialog="dialogInsert" />
- 
- </v-container>
+    <productsDialogInsert v-model:dialog="dialogInsert" @submitted="fetchProducts"/>
+  </v-container>
 </template>
 
 <script setup>
 import productsTable from "@/components/products/products.table.vue";
 import productsDialogInsert from "@/components/products/products.dialog.insert.vue";
-import { onMounted, ref } from "vue";
+import { onMounted, ref, onUnmounted } from "vue";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "@/firebase";
 
@@ -35,15 +34,22 @@ defineOptions({
   name: "ProductsView",
 });
 
-const tblData = ref([])
+const tblData = ref([]);
 const dialogInsert = ref(false);
-const loading = ref(false)
+const loading = ref(false);
 
 const fetchProducts = async () => {
   const productsListSnapshot = await getDocs(collection(db, "products"));
-  const products = productsListSnapshot.docs.map((doc) => doc.data());
+
+  const products = productsListSnapshot.docs.map((doc) => {
+    return {
+      prod_id: doc.id,
+      ...doc.data(),
+    };
+  });
+
   if (products.length > 0) {
-    tblData.value = products
+    tblData.value = products;
   }
 };
 

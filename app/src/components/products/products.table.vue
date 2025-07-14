@@ -9,14 +9,22 @@
         density="compact"
         variant="outlined"
         color="primary"
-        label="ค้นหา . ."
+        label="ค้นหา รหัสสินค้า, ชื่อสินค้า, ราคา"
         append-inner-icon="mdi-magnify"
         single-line
         hide-details
         clearable
       ></v-text-field>
     </v-card-title>
-    <v-data-table :headers="headers" :items="items" :search="search" hover />
+    <v-data-table :headers="headers" :items="items" :search="search" hover>
+       <template v-slot:item="{ item }">
+          <tr>
+            <td>{{ item.prod_id }}</td>
+            <td>{{ item.prod_name }}</td>
+            <td>{{ Number(item.prod_price).toLocaleString() }}</td>
+          </tr>
+        </template>
+    </v-data-table>
   </v-card>
 </template>
 
